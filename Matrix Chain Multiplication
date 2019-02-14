@@ -1,0 +1,32 @@
+#include<bits/stdc++.h> 
+using namespace std; 
+ 
+int MatrixChainOrder(vector<int> v) 
+{
+    int table[v.size()][v.size()];
+    memset(table,0,sizeof(table));
+    
+    int q=0,j;
+    for(int l=2;l<v.size();l++)
+    {
+        for(int i=0;i<v.size()-l;i++)
+        {
+            j = i+l;
+            table[i][j] = INT_MAX;
+            for(int k=i+1;k<j;k++)
+            {
+                q = table[i][k] + table[k][j] + v[i]*v[k]*v[j];    
+                table[i][j] = min(table[i][j] , q);
+            }
+        }
+    }
+    return table[0][v.size()-1];
+}    
+int main() 
+{ 
+	int arr[] = {1, 2, 3, 4, 3};
+	vector<int> v(arr,arr+5);
+
+	cout << "Minimum number of multiplications is "
+		<< MatrixChainOrder(v); 
+} 
